@@ -1,0 +1,56 @@
+/* ========================================
+   Tahap 1: Inisialisasi Dasar Banget
+   ======================================== */
+
+:root {
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+
+  /* Palet warna bertema maritim kapal laoed */
+  --brand: #0369a1;
+  --brand-dark: #0c4a6e;
+  --brand-light: #e0f2fe;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
+  --error-border: #f87171;
+  --success-bg: #f0fdf4;
+  --success-text: #15803d;
+  --success-border: #4ade80;
+
+  --radius: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--background);
+}
+
+.container {
+  width: min(100% - 2rem, 72rem);
+  margin-inline: auto;
+}
+
+/* Aksesibilitas Keyboard Focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--brand-dark);
+  outline-offset: 3px;
+}

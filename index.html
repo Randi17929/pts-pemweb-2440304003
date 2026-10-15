@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PesisirNiaga — Dashboard Katalog & Monitoring Suplai Produk UMKM Pesisir Tarakan</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header: Nama Aplikasi & Identitas Singkat Mahasiswa -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand-identity">
+        <span class="badge-context">Koperasi & Logistik UMKM Pesisir</span>
+        <h1>PesisirNiaga</h1>
+        <p class="subtitle">Dashboard Katalog & Monitoring Suplai Produk UMKM Pesisir Tarakan</p>
+      </div>
+      <div class="student-badge" aria-label="Identitas Mahasiswa">
+        <p><strong>Muhammad Randi Febrian</strong></p>
+        <p>NIM: 2440304003 | Varian: 003 (X=0, Y=0, Z=3, C=3)</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigasi Utama -->
+  <nav class="site-nav" aria-label="Navigasi Utama">
+    <div class="container nav-inner">
+      <a href="#ringkasan-data">Ringkasan Analitik</a>
+      <a href="#katalog-produk">Katalog Produk</a>
+      <a href="#form-mitra">Form Preferensi Suplai</a>
+    </div>
+  </nav>
+
+  <!-- Konten Utama -->
+  <main class="container">
+    <!-- Section 1: Analisis Data Wajib (Minimal 2 Informasi Olahan JS) -->
+    <section id="ringkasan-data" aria-labelledby="heading-ringkasan">
+      <h2 id="heading-ringkasan">Ringkasan Analitik Katalog</h2>
+      <div id="stats-container" class="stats-grid" aria-live="polite">
+        <p>Memuat data analitik...</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Kontrol Interaktif (Fitur Y=0: Search + Sort & Challenge C=3: Toggle Grid/List) -->
+    <section id="katalog-produk" aria-labelledby="heading-katalog">
+      <div class="section-header">
+        <h2 id="heading-katalog">Daftar Katalog Suplai Produk</h2>
+      </div>
+
+      <!-- Placeholder Toolbar (Akan dilengkapi di Tahap 2 & 6) -->
+      <div class="toolbar" role="region" aria-label="Kontrol Pencarian, Pengurutan, dan Tampilan">
+        <p>Kontrol pencarian, pengurutan, dan mode tampilan akan ditempatkan di area ini.</p>
+      </div>
+
+      <!-- Status State: Loading & Error -->
+      <div id="status-message" role="status" aria-live="polite"></div>
+
+      <!-- Area Data Utama REST API -->
+      <div id="product-container" class="cards grid-view"></div>
+    </section>
+
+    <!-- Section 3: Form & Validasi (Digit Z=3: Minimal Satu Kategori/Preferensi Dipilih) -->
+    <section id="form-mitra" aria-labelledby="heading-form">
+      <h2 id="heading-form">Formulir Pengajuan Preferensi Suplai Mitra UMKM</h2>
+      <form id="supply-form" novalidate>
+        <p>Komponen input dan validasi kategori akan ditempatkan di area ini.</p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer: Nama, NIM, Kelas, dan Keterangan PTS -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Dibuat oleh <strong>Muhammad Randi Febrian — 2440304003</strong> (Program Studi Teknik Komputer, Kelas Semester 5) untuk memenuhi Penilaian Tengah Semester (PTS) Pemrograman Web.
+      </p>
+      <p class="footer-meta">
+        Fakultas Teknik — Universitas Borneo Tarakan &copy; 2026
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
