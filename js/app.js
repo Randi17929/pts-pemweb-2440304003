@@ -2,7 +2,7 @@
  * PesisirNiaga — Dashboard Katalog & Monitoring Produk Hasil Olahan Laut Pesisir Tarakan
  * Pembuat : Muhammad Randi Febrian (2440304003)
  * Varian  : 003 (X=0: Products, Y=0: Search+Sort, Z=3: Min 1 Kategori, C=3: Toggle Grid/List)
- * Tahap 3 : Konfigurasi REST API, Data Mapping Katalog Pesisir, State, & Seleksi DOM
+ * Tahap 4 & 5 : Fetch REST API DummyJSON, Mapping Data Olahan Laut, Render DOM, & Analitik Data
  */
 
 'use strict';
@@ -19,8 +19,6 @@ const API_CONFIG = {
 
 /* ==========================================================================
    2. DATA KATALOG 12 PRODUK OLAHAN LAUT PESISIR TARAKAN
-   Dipetakan di atas respons REST API DummyJSON Products agar tampilan sesuai
-   konteks lokal UMKM Pesisir Tarakan tanpa mengubah endpoint wajib X = 0.
    ========================================================================== */
 const TARAKAN_SEAFOOD_CATALOG = [
   {
@@ -30,7 +28,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 30000,
     unitInfo: 'Kemasan kecil Rp25.000–Rp35.000 | Mentah/Kiloan Rp170.000–Rp200.000/kg',
     description: 'Camilan ikan tipis (pepija) goreng renyah khas pesisir Tarakan dengan daya tahan tinggi, sangat cocok dibawa sebagai oleh-oleh perjalanan jauh.',
-    thumbnail: 'https://images.unsplash.com/photo-1625943553852-781c6dd46faa?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://cdn-jjmn.jawapos.com/images/10/radartarakan/2018/09/resep-keripik-ikan-pepija.JPG'
   },
   {
     title: 'Amplang Bandeng Khas Tarakan',
@@ -39,7 +37,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 25000,
     unitInfo: 'Eceran Rp15.000–Rp35.000/bungkus | Paket dus isi 12 Rp162.000',
     description: 'Kerupuk kuku macan (amplang) berbahan daging ikan bandeng segar tambak Tarakan dengan tekstur renyah dan rasa gurih alami.',
-    thumbnail: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiQF-oalHh0qoW33LEGwXNwWsW4jqm0xL-ib3BFWuIa5q1b5C7rqlMNeA&s=10'
   },
   {
     title: 'Abon Ikan Bandeng & Abon Kepiting',
@@ -48,7 +46,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 25000,
     unitInfo: 'Kemasan kedap udara mulai dari Rp25.000 per bungkus',
     description: 'Olahan serat daging ikan bandeng dan kepiting bakau pilihan yang dimasak dengan rempah tradisional hingga kering dan tahan lama.',
-    thumbnail: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://assets.pikiran-rakyat.com/crop/0x0:0x0/720x0/webp/photo/2023/02/22/57469522.jpg'
   },
   {
     title: 'Kerupuk Udang & Rumput Laut',
@@ -57,7 +55,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 22500,
     unitInfo: 'Kemasan Rp15.000–Rp30.000 per bungkus (sesuai ukuran berat)',
     description: 'Paduan udang pesisir dan rumput laut budidaya Pantai Amal yang diolah menjadi kerupuk renyah bebas bahan pengawet.',
-    thumbnail: 'https://images.unsplash.com/photo-1604908554025-aaa87c152c7b?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://images.alodokter.com/dk0z4ums3/image/upload/v1760598875/attached_image/kalori-kerupuk-udang-dan-cara-konsumsi-yang-sehat.jpg'
   },
   {
     title: 'Ebi Kering Pesisir Tarakan',
@@ -66,7 +64,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 57500,
     unitInfo: 'Kemasan 250 gram Rp40.000–Rp75.000 (tergantung ukuran udang)',
     description: 'Udang ebi kering kualitas super hasil tangkapan nelayan lokal Tarakan, dijemur higienis untuk bumbu masakan maupun camilan.',
-    thumbnail: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://asset.kompas.com/crops/ozz6AvVDkL5Zka1dl2KzNnMj9C8=/74x0:919x563/1200x800/data/photo/2022/01/14/61e0d95e95a7a.jpg'
   },
   {
     title: 'Kepiting Soka Goreng Tepung',
@@ -75,7 +73,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 90000,
     unitInfo: 'Siap saji isi 8 ekor Rp90.000/porsi | Kemasan Frozen Rp120.000–Rp180.000/kg',
     description: 'Kepiting cangkang lunak (soka) khas tambak Tarakan yang dapat dikonsumsi utuh bersama cangkangnya, tersedia siap santap maupun frozen.',
-    thumbnail: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://foto.kontan.co.id/lpGLjKaZ5R7NEi5RNVE_JRo99WU=/smart/filters:format(webp)/2022/03/17/1795779015.jpg'
   },
   {
     title: 'Kapah Rebus Pantai Amal',
@@ -84,7 +82,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 55000,
     unitInfo: 'Hidangan segar Rp50.000–Rp60.000 per porsi / keranjang pesanan',
     description: 'Kerang kapah segar hasil tangkapan perairan Pantai Amal yang direbus dengan serai dan rempah aromatik, disajikan dengan sambal khas.',
-    thumbnail: 'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://img-global.cpcdn.com/recipes/5507047363c4493e/1200x630cq80/photo.jpg'
   },
   {
     title: 'Bandeng Tanpa Duri (Batari) Frozen',
@@ -93,7 +91,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 42500,
     unitInfo: 'Kemasan vakum frozen Rp35.000–Rp50.000 per ekor (sesuai gramasi)',
     description: 'Ikan bandeng tambak organik Tarakan yang telah dicabut seluruh durinya secara higienis dan dibekukan dalam kemasan vakum siap masak.',
-    thumbnail: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR00k-0Z0yACpDarMOmD_OkHIOKf03U6zDE_Z64BAW-MJmQliaabyMoYrg&s=10'
   },
   {
     title: 'Kepiting Saus Khas Tarakan',
@@ -102,7 +100,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 225000,
     unitInfo: 'Kepiting bakau jantan/bertelur Rp150.000–Rp300.000+ per porsi/kg',
     description: 'Hidangan ikonik kepiting bakau berdaging tebal khas Kalimantan Utara yang dimasak dengan saus asam manis pedas kaya rempah.',
-    thumbnail: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://awsimages.detik.net.id/customthumb/2010/12/09/1030/detik_kepiting-kenari.jpg?w=600&q=90'
   },
   {
     title: 'Dodol Rumput Laut Pantai Amal',
@@ -111,7 +109,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 15000,
     unitInfo: 'Kemasan kotak 250 gram mulai dari Rp15.000',
     description: 'Manisan dodol kenyal tinggi serat yang diolah dari rumput laut segar Eucheuma cottonii hasil budidaya masyarakat pesisir Pantai Amal.',
-    thumbnail: 'https://images.unsplash.com/photo-1582716401301-b2407dc7563d?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://www.tokomesin.com/wp-content/uploads/2015/06/13281722_963e223a-6650-4e3c-a44a-347dd741d552-dodol-rumput-laut-tokomesin.jpg'
   },
   {
     title: 'Sabun Rumput Laut (Kosmetik UMKM)',
@@ -120,7 +118,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 22500,
     unitInfo: 'Kemasan batang alami Rp15.000–Rp30.000 per batang',
     description: 'Produk perawatan kulit alami berbahan ekstrak rumput laut Tarakan yang kaya antioksidan dan kolagen alami untuk menjaga kelembapan kulit.',
-    thumbnail: 'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7fYZWw4e2FWMapky2ITbBiZDi1egDz2RAyHgrouerq9Mx2QE-Q5Rzv3s8&s=10'
   },
   {
     title: 'Petis Udang Khas Tarakan',
@@ -129,7 +127,7 @@ const TARAKAN_SEAFOOD_CATALOG = [
     price: 30000,
     unitInfo: 'Kemasan botol/cup kecil Rp20.000–Rp40.000',
     description: 'Bumbu petis kental gurih hasil olahan kaldu udang segar pesisir Tarakan, cocok untuk cocolan gorengan, tahu tek, dan rujak pesisir.',
-    thumbnail: 'https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?q=80&w=600&auto=format&fit=crop'
+    thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNmOXB9wXYzrt7K-gOOdqDavULjAUKjC18SpJvj-Qzwg&s=10'
   }
 ];
 
@@ -150,24 +148,20 @@ const appState = {
    4. SELEKSI ELEMEN DOM & HELPER FORMAT RUPIAH
    ========================================================================== */
 const domElements = {
-  // Elemen Statistik Analitik
   statTotalProducts: document.getElementById('stat-total-products'),
   statAvgPrice: document.getElementById('stat-avg-price'),
   statMaxProduct: document.getElementById('stat-max-product'),
   statMaxPrice: document.getElementById('stat-max-price'),
   statTotalCategories: document.getElementById('stat-total-categories'),
 
-  // Elemen Kontrol Interaktif (Y = 0 & C = 3)
   searchInput: document.getElementById('search-input'),
   sortSelect: document.getElementById('sort-select'),
   btnGridView: document.getElementById('btn-grid-view'),
   btnListView: document.getElementById('btn-list-view'),
 
-  // Elemen Katalog & Status State
   statusMessage: document.getElementById('status-message'),
   productContainer: document.getElementById('product-container'),
 
-  // Elemen Modal Detail Produk (<dialog>)
   productModal: document.getElementById('product-modal'),
   btnCloseModal: document.getElementById('btn-close-modal'),
   modalCategory: document.getElementById('modal-category'),
@@ -181,7 +175,6 @@ const domElements = {
   modalDiscount: document.getElementById('modal-discount'),
   modalStatus: document.getElementById('modal-status'),
 
-  // Elemen Formulir Pendaftaran UMKM (Z = 3)
   supplyForm: document.getElementById('supply-form'),
   mitraNameInput: document.getElementById('mitra-name'),
   mitraContactInput: document.getElementById('mitra-contact'),
@@ -193,11 +186,6 @@ const domElements = {
   btnResetForm: document.getElementById('btn-reset-form')
 };
 
-/**
- * Memformat angka numerik menjadi format mata uang Rupiah (contoh: Rp 30.000)
- * @param {number} amount
- * @returns {string}
- */
 function formatRupiah(amount) {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -206,10 +194,236 @@ function formatRupiah(amount) {
   }).format(amount);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.info('PesisirNiaga [Tahap 3]: Konfigurasi API & referensi DOM siap.', {
-    endpoint: API_CONFIG.PRODUCTS_ENDPOINT,
-    catalogCount: TARAKAN_SEAFOOD_CATALOG.length,
-    savedViewMode: appState.viewMode
+/* ==========================================================================
+   5. TAHAP 4: IMPLEMENT FETCH DATA & DATA MAPPING
+   ========================================================================== */
+async function fetchProducts() {
+  appState.isLoading = true;
+  appState.errorMessage = null;
+  renderLoadingState();
+
+  try {
+    const response = await fetch(API_CONFIG.PRODUCTS_ENDPOINT);
+    
+    if (!response.ok) {
+      throw new Error(`Gagal memuat data dari server (Status HTTP: ${response.status})`);
+    }
+
+    const data = await response.json();
+    const rawApiProducts = data.products || [];
+
+    // Mapping objek REST API DummyJSON dengan 12 Produk Olahan Laut Tarakan
+    appState.allProducts = rawApiProducts.map((item, index) => {
+      const localSeafood = TARAKAN_SEAFOOD_CATALOG[index] || TARAKAN_SEAFOOD_CATALOG[0];
+      return {
+        id: item.id,
+        title: localSeafood.title,
+        category: localSeafood.category,
+        brand: localSeafood.brand,
+        price: localSeafood.price,
+        unitInfo: localSeafood.unitInfo,
+        description: localSeafood.description,
+        thumbnail: localSeafood.thumbnail,
+        rating: item.rating ?? 4.8,
+        stock: item.stock ?? 25,
+        discountPercentage: item.discountPercentage ?? 5
+      };
+    });
+
+    appState.filteredProducts = [...appState.allProducts];
+    appState.isLoading = false;
+    clearLoadingState();
+
+    // Jalankan render DOM & analitik
+    renderAnalytics(appState.allProducts);
+    renderProducts(appState.filteredProducts);
+
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    appState.isLoading = false;
+    appState.errorMessage = error.message || 'Terjadi kesalahan jaringan saat mengambil data.';
+    renderErrorState(appState.errorMessage);
+  }
+}
+
+/* ==========================================================================
+   6. TAHAP 5: RENDER ANALITIK & KARTU PRODUK KE DOM
+   ========================================================================== */
+function renderAnalytics(products) {
+  if (!products || products.length === 0) return;
+
+  // 1. Total Produk
+  domElements.statTotalProducts.textContent = `${products.length} Item`;
+
+  // 2. Rata-Rata Harga menggunakan method .reduce() (Materi Pertemuan 4)
+  const totalPrice = products.reduce((sum, p) => sum + p.price, 0);
+  const avgPrice = totalPrice / products.length;
+  domElements.statAvgPrice.textContent = formatRupiah(avgPrice);
+
+  // 3. Produk Harga Tertinggi (Materi Pertemuan 4)
+  const maxProduct = products.reduce((prev, curr) => (curr.price > prev.price) ? curr : prev, products[0]);
+  domElements.statMaxProduct.textContent = maxProduct.title;
+  domElements.statMaxPrice.textContent = `${formatRupiah(maxProduct.price)}`;
+
+  // 4. Jumlah Kategori Unik menggunakan .map() dan Set
+  const uniqueCategories = new Set(products.map(p => p.category));
+  domElements.statTotalCategories.textContent = `${uniqueCategories.size} Kategori`;
+}
+
+function renderProducts(products) {
+  const container = domElements.productContainer;
+  container.innerHTML = '';
+
+  if (products.length === 0) {
+    container.innerHTML = `
+      <div class="status-box" style="grid-column: 1 / -1; text-align: center;">
+        <p>Tidak ada produk olahan laut yang cocok dengan kata kunci pencarian Anda.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render aman menggunakan teknik DOM creation (Materi Pertemuan 5)
+  products.forEach(product => {
+    const article = document.createElement('article');
+    article.className = 'product-card';
+    article.setAttribute('tabindex', '0');
+    article.setAttribute('data-id', product.id);
+
+    // Wrapper Gambar
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'product-img-wrapper';
+
+    const img = document.createElement('img');
+    img.src = product.thumbnail;
+    img.alt = product.title;
+    img.className = 'product-img';
+    img.loading = 'lazy';
+
+    const badge = document.createElement('span');
+    badge.className = 'product-category-badge';
+    badge.textContent = product.category;
+
+    imgWrapper.append(img, badge);
+
+    // Body Kartu
+    const body = document.createElement('div');
+    body.className = 'product-body';
+
+    const title = document.createElement('h3');
+    title.className = 'product-title';
+    title.textContent = product.title;
+
+    const brand = document.createElement('p');
+    brand.className = 'product-brand';
+    brand.textContent = product.brand;
+
+    const meta = document.createElement('div');
+    meta.className = 'product-meta';
+
+    const price = document.createElement('span');
+    price.className = 'product-price';
+    price.textContent = formatRupiah(product.price);
+
+    const rating = document.createElement('span');
+    rating.className = 'product-rating';
+    rating.innerHTML = `&#9733; ${product.rating} | Stok: ${product.stock}`;
+
+    meta.append(price, rating);
+
+    const btnDetail = document.createElement('button');
+    btnDetail.type = 'button';
+    btnDetail.className = 'btn-detail';
+    btnDetail.setAttribute('data-id', product.id);
+    btnDetail.textContent = 'Lihat Detail Produk';
+
+    body.append(title, brand, meta, btnDetail);
+    article.append(imgWrapper, body);
+
+    // Event Listener Klik Kartu untuk Membuka Modal Detail
+    article.addEventListener('click', (e) => {
+      // Cegah trigger ganda jika tombol detail diklik langsung
+      openProductModal(product);
+    });
+
+    container.append(article);
   });
+}
+
+/* ==========================================================================
+   7. STATE LOADING & ERROR HANDLERS
+   ========================================================================== */
+function renderLoadingState() {
+  domElements.statusMessage.hidden = false;
+  domElements.statusMessage.className = 'status-box';
+  domElements.statusMessage.textContent = 'Memuat katalog produk olahan laut dari REST API...';
+}
+
+function clearLoadingState() {
+  domElements.statusMessage.hidden = true;
+  domElements.statusMessage.textContent = '';
+}
+
+function renderErrorState(message) {
+  domElements.statusMessage.hidden = false;
+  domElements.statusMessage.className = 'status-box error-state';
+  domElements.statusMessage.innerHTML = `
+    <p><strong>Gagal Memuat Data:</strong> ${message}</p>
+    <button type="button" id="btn-retry" class="btn-primary" style="margin-top: 0.75rem;">Coba Lagi (Retry)</button>
+  `;
+  
+  const btnRetry = document.getElementById('btn-retry');
+  if (btnRetry) {
+    btnRetry.addEventListener('click', fetchProducts);
+  }
+}
+
+/* ==========================================================================
+   8. MODAL DETAIL PRODUK (<dialog>)
+   ========================================================================== */
+function openProductModal(product) {
+  domElements.modalCategory.textContent = product.category;
+  domElements.modalImage.src = product.thumbnail;
+  domElements.modalImage.alt = product.title;
+  domElements.modalTitle.textContent = product.title;
+  domElements.modalBrand.textContent = product.brand;
+  domElements.modalPrice.textContent = formatRupiah(product.price);
+  domElements.modalDescription.textContent = product.description;
+  domElements.modalRating.textContent = `${product.rating} / 5.0`;
+  domElements.modalStock.textContent = `${product.stock} Unit / Kemasan`;
+  domElements.modalDiscount.textContent = product.unitInfo;
+  domElements.modalStatus.textContent = 'Tersedia di PesisirNiaga';
+
+  if (typeof domElements.productModal.showModal === 'function') {
+    domElements.productModal.showModal();
+  } else {
+    domElements.productModal.setAttribute('open', true);
+  }
+}
+
+if (domElements.btnCloseModal) {
+  domElements.btnCloseModal.addEventListener('click', () => {
+    domElements.productModal.close();
+  });
+}
+
+domElements.productModal.addEventListener('click', (event) => {
+  const rect = domElements.productModal.getBoundingClientRect();
+  const isInDialog = (
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom
+  );
+  if (!isInDialog) {
+    domElements.productModal.close();
+  }
+});
+
+/* ==========================================================================
+   INICIALISASI UTAMA SAAT HALAMAN DIMUAT
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  console.info('PesisirNiaga [Tahap 4 & 5]: Menjalankan fetch data API...');
+  fetchProducts();
 });
