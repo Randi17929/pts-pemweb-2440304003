@@ -427,3 +427,85 @@ document.addEventListener('DOMContentLoaded', () => {
   console.info('PesisirNiaga [Tahap 4 & 5]: Menjalankan fetch data API...');
   fetchProducts();
 });
+
+
+/* ==========================================================================
+   9. TAHAP 6: FITUR UTAMA (Y=0: SEARCH + SORT) & CHALLENGE (C=3: TOGGLE VIEW)
+   ========================================================================== */
+
+// --- Fungsi Terpusat: Filter & Sort ---
+function applyFilterAndSort() {
+  const query = appState.searchQuery.toLowerCase();
+  
+  // 1. Filter Pencarian (Y = 0)
+  let result = appState.allProducts.filter(product => {
+    return product.title.toLowerCase().includes(query) || 
+           product.category.toLowerCase().includes(query) ||
+           product.brand.toLowerCase().includes(query);
+  });
+
+  // 2. Pengurutan (Y = 0)
+  if (appState.sortBy === 'price-asc') {
+    result.sort((a, b) => a.price - b.price);
+  } else if (appState.sortBy === 'price-desc') {
+    result.sort((a, b) => b.price - a.price);
+  } else if (appState.sortBy === 'name-asc') {
+    result.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (appState.sortBy === 'rating-desc') {
+    result.sort((a, b) => b.rating - a.rating);
+  } else {
+    // default: berdasarkan ID asli dari API
+    result.sort((a, b) => a.id - b.id);
+  }
+
+  appState.filteredProducts = result;
+  renderProducts(appState.filteredProducts);
+}
+
+// --- Event Listener: Input Search Real-Time ---
+if (domElements.searchInput) {
+  domElements.searchInput.addEventListener('input', (e) => {
+    appState.searchQuery = e.target.value.trim();
+    applyFilterAndSort();
+  });
+}
+
+// --- Event Listener: Select Sort ---
+if (domElements.sortSelect) {
+  domElements.sortSelect.addEventListener('change', (e) => {
+    appState.sortBy = e.target.value;
+    applyFilterAndSort();
+  });
+}
+
+// --- Fungsi & Event Listener: Toggle Grid/List (Challenge C = 3) ---
+function setViewMode(mode) {
+  // Update state & localStorage
+  appState.viewMode = mode;
+  localStorage.setItem(API_CONFIG.STORAGE_KEY_VIEW, mode);
+
+  // Update DOM Classes
+  if (mode === 'list') {
+    domElements.productContainer.classList.remove('grid-view');
+    domElements.productContainer.classList.add('list-view');
+    domElements.btnListView.classList.add('active');
+    domElements.btnListView.setAttribute('aria-pressed', 'true');
+    domElements.btnGridView.classList.remove('active');
+    domElements.btnGridView.setAttribute('aria-pressed', 'false');
+  } else {
+    domElements.productContainer.classList.remove('list-view');
+    domElements.productContainer.classList.add('grid-view');
+    domElements.btnGridView.classList.add('active');
+    domElements.btnGridView.setAttribute('aria-pressed', 'true');
+    domElements.btnListView.classList.remove('active');
+    domElements.btnListView.setAttribute('aria-pressed', 'false');
+  }
+}
+
+if (domElements.btnGridView && domElements.btnListView) {
+  domElements.btnGridView.addEventListener('click', () => setViewMode('grid'));
+  domElements.btnListView.addEventListener('click', () => setViewMode('list'));
+  
+  // Terapkan view mode saat halaman dimuat (mengambil dari localStorage)
+  setViewMode(appState.viewMode);
+}
