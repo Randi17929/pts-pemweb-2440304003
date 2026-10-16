@@ -509,3 +509,111 @@ if (domElements.btnGridView && domElements.btnListView) {
   // Terapkan view mode saat halaman dimuat (mengambil dari localStorage)
   setViewMode(appState.viewMode);
 }
+
+/* ==========================================================================
+   10. TAHAP 7: IMPLEMENT FORM VALIDATION (Digit Z = 3)
+   ========================================================================== */
+
+function clearFormErrors() {
+  // Bersihkan teks error
+  domElements.nameError.textContent = '';
+  domElements.contactError.textContent = '';
+  domElements.categoryError.textContent = '';
+  
+  // Hapus class input-error
+  domElements.mitraNameInput.classList.remove('input-error');
+  domElements.mitraContactInput.classList.remove('input-error');
+  
+  // Sembunyikan pesan sukses
+  domElements.formSuccess.hidden = true;
+  domElements.formSuccess.textContent = '';
+}
+
+function validateSupplyForm(event) {
+  // Cegah halaman refresh (perilaku bawaan submit form)
+  event.preventDefault();
+  clearFormErrors();
+  
+  let isValid = true;
+  let firstErrorElement = null;
+
+  // 1. Validasi Input Nama (Tidak boleh kosong, min 3 karakter)
+  const nameValue = domElements.mitraNameInput.value.trim();
+  if (!nameValue) {
+    domElements.nameError.textContent = 'Nama usaha atau pemilik wajib diisi.';
+    domElements.mitraNameInput.classList.add('input-error');
+    isValid = false;
+    if (!firstErrorElement) firstErrorElement = domElements.mitraNameInput;
+  } else if (nameValue.length < 3) {
+    domElements.nameError.textContent = 'Nama usaha minimal harus 3 karakter.';
+    domElements.mitraNameInput.classList.add('input-error');
+    isValid = false;
+    if (!firstErrorElement) firstErrorElement = domElements.mitraNameInput;
+  }
+
+  // 2. Validasi Kontak/Email (Tidak boleh kosong)
+  const contactValue = domElements.mitraContactInput.value.trim();
+  if (!contactValue) {
+    domElements.contactError.textContent = 'Nomor WhatsApp atau Email wajib diisi.';
+    domElements.mitraContactInput.classList.add('input-error');
+    isValid = false;
+    if (!firstErrorElement) firstErrorElement = domElements.mitraContactInput;
+  }
+
+  // 3. Validasi Kategori - Syarat Z=3 (Minimal 1 Kategori Dipilih)
+  const checkedCategories = domElements.supplyForm.querySelectorAll('input[name="categories"]:checked');
+  if (checkedCategories.length === 0) {
+    domElements.categoryError.textContent = 'Anda wajib memilih minimal satu kategori produk olahan laut.';
+    isValid = false;
+    // Jika error pertama ada di checkbox, fokuskan ke checkbox pertama
+    if (!firstErrorElement) {
+      firstErrorElement = domElements.supplyForm.querySelector('input[name="categories"]');
+    }
+  }
+
+  // Evaluasi Akhir Validasi
+  if (!isValid) {
+    // Fokuskan keyboard/layar ke elemen pertama yang error (Aksesibilitas)
+    if (firstErrorElement) {
+      firstErrorElement.focus();
+    }
+    return; // Hentikan proses jika masih ada error
+  }
+
+  // JIKA VALIDASI BERHASIL
+  // Kumpulkan data yang dipilih (opsional, untuk simulasi pengiriman data)
+  const selectedCategoryNames = Array.from(checkedCategories).map(cb => cb.value).join(', ');
+  
+  // Tampilkan pesan sukses
+  domElements.formSuccess.textContent = `Pengajuan pendaftaran etalase untuk "${nameValue}" berhasil dikirim! Kategori: ${selectedCategoryNames}. Tim kami akan segera menghubungi ${contactValue}.`;
+  domElements.formSuccess.hidden = false;
+  
+  // Kosongkan form setelah sukses (kecuali pesan suksesnya)
+  domElements.supplyForm.reset();
+  
+  // Arahkan fokus kembali ke pesan sukses agar dibaca oleh screen reader
+  domElements.formSuccess.setAttribute('tabindex', '-1');
+  domElements.formSuccess.focus();
+}
+
+// Pasang Event Listener ke Form
+if (domElements.supplyForm) {
+  // Validasi saat ditekan Submit
+  domElements.supplyForm.addEventListener('submit', validateSupplyForm);
+  
+  // Event Reset untuk membersihkan form + error secara manual
+  domElements.supplyForm.addEventListener('reset', () => {
+    // Timeout sedikit agar reset form selesai sebelum class dihapus
+    setTimeout(clearFormErrors, 10);
+  });
+}
+
+// Opsional: Validasi real-time saat pengguna mengetik untuk menghapus error
+if (domElements.mitraNameInput) {
+  domElements.mitraNameInput.addEventListener('input', (e) => {
+    if (e.target.value.trim().length >= 3) {
+      domElements.nameError.textContent = '';
+      domElements.mitraNameInput.classList.remove('input-error');
+    }
+  });
+}
