@@ -617,3 +617,5 @@ if (domElements.mitraNameInput) {
     }
   });
 }
+
+// [Tahap 8]: Fitur Loading State dan Error Handling (try...catch) telah terintegrasi dengan fungsi fetchProducts() sejak Tahap 4 & 5.
