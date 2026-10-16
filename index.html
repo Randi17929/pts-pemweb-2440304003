@@ -3,79 +3,384 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PesisirNiaga — Dashboard Katalog & Monitoring Suplai Produk UMKM Pesisir Tarakan</title>
+  <title>PesisirNiaga — Dashboard Katalog &amp; Monitoring Produk Hasil Olahan Laut Pesisir Tarakan</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Header: Nama Aplikasi & Identitas Singkat Mahasiswa -->
+  <!-- 1. HEADER: Ruang Logo 1:1 + Identitas Aplikasi + Badge NIM -->
   <header class="site-header">
-    <div class="container">
-      <div class="brand-identity">
-        <span class="badge-context">Koperasi & Logistik UMKM Pesisir</span>
-        <h1>PesisirNiaga</h1>
-        <p class="subtitle">Dashboard Katalog & Monitoring Suplai Produk UMKM Pesisir Tarakan</p>
+    <div class="container header-inner">
+      <div class="brand-wrapper">
+        <!-- Slot Logo Rasio 1:1 (Simpan file logo Anda di assets/images/logo.png) -->
+        <div class="logo-box" aria-label="Logo PesisirNiaga">
+          <img 
+            src="https://placehold.co/120x120/1d1d1f/ffffff?text=suki" 
+            alt="Logo PesisirNiaga Tarakan" 
+            class="logo-img"
+          >
+        </div>
+        <div class="brand-identity">
+          <span class="badge-context">Etalase Digital UMKM Pesisir Tarakan</span>
+          <h1>PesisirNiaga</h1>
+          <p class="subtitle">Dashboard Katalog &amp; Monitoring Produk Hasil Olahan Laut Pesisir Tarakan</p>
+        </div>
       </div>
+
       <div class="student-badge" aria-label="Identitas Mahasiswa">
-        <p><strong>Muhammad Randi Febrian</strong></p>
-        <p>NIM: 2440304003 | Varian: 003 (X=0, Y=0, Z=3, C=3)</p>
+        <p class="student-name">Muhammad Randi Febrian</p>
+        <p class="student-nim">NIM: 2440304003</p>
+        <span class="variant-pill">Varian 003 (X=0, Y=0, Z=3, C=3)</span>
       </div>
     </div>
   </header>
 
-  <!-- Navigasi Utama -->
+  <!-- NAVIGASI UTAMA (Frosted Glass Sub-Nav) -->
   <nav class="site-nav" aria-label="Navigasi Utama">
     <div class="container nav-inner">
-      <a href="#ringkasan-data">Ringkasan Analitik</a>
-      <a href="#katalog-produk">Katalog Produk</a>
-      <a href="#form-mitra">Form Preferensi Suplai</a>
+      <span class="nav-category-title">Katalog Olahan Laut</span>
+      <div class="nav-links-group">
+        <a href="#ringkasan-data">Ringkasan Analitik</a>
+        <a href="#katalog-produk">Katalog Produk</a>
+        <a href="#form-mitra" class="nav-cta-pill">Daftar Etalase UMKM</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Konten Utama -->
-  <main class="container">
-    <!-- Section 1: Analisis Data Wajib (Minimal 2 Informasi Olahan JS) -->
-    <section id="ringkasan-data" aria-labelledby="heading-ringkasan">
-      <h2 id="heading-ringkasan">Ringkasan Analitik Katalog</h2>
-      <div id="stats-container" class="stats-grid" aria-live="polite">
-        <p>Memuat data analitik...</p>
-      </div>
-    </section>
-
-    <!-- Section 2: Kontrol Interaktif (Fitur Y=0: Search + Sort & Challenge C=3: Toggle Grid/List) -->
-    <section id="katalog-produk" aria-labelledby="heading-katalog">
+  <!-- KONTEN UTAMA -->
+  <main class="container main-content">
+    
+    <!-- 2. SECTION ANALITIK DATA (4 Kotak Analitik + Gambar Dummy Olahan Laut) -->
+    <section id="ringkasan-data" class="section-block section-parchment-bleed" aria-labelledby="heading-ringkasan">
       <div class="section-header">
-        <h2 id="heading-katalog">Daftar Katalog Suplai Produk</h2>
+        <div>
+          <h2 id="heading-ringkasan">Ringkasan Analitik Katalog</h2>
+          <p class="section-desc">Statistik harga dan variasi produk olahan laut pesisir Tarakan yang dihitung otomatis dengan JavaScript.</p>
+        </div>
       </div>
 
-      <!-- Placeholder Toolbar (Akan dilengkapi di Tahap 2 & 6) -->
-      <div class="toolbar" role="region" aria-label="Kontrol Pencarian, Pengurutan, dan Tampilan">
-        <p>Kontrol pencarian, pengurutan, dan mode tampilan akan ditempatkan di area ini.</p>
+      <div id="stats-container" class="stats-grid" aria-live="polite">
+        <!-- Kartu Analitik 1 -->
+        <article class="stat-card">
+          <img 
+            src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Pepija" 
+            alt="Ilustrasi Total Produk Olahan Laut" 
+            class="stat-thumb"
+          >
+          <div class="stat-info">
+            <span class="stat-label">Total Produk Ditampilkan</span>
+            <strong id="stat-total-products" class="stat-value">12 Produk</strong>
+            <small class="stat-note">Tersedia di etalase aktif</small>
+          </div>
+        </article>
+
+        <!-- Kartu Analitik 2 -->
+        <article class="stat-card">
+          <img 
+            src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Amplang" 
+            alt="Ilustrasi Rata-Rata Harga Olahan" 
+            class="stat-thumb"
+          >
+          <div class="stat-info">
+            <span class="stat-label">Rata-Rata Harga Produk</span>
+            <strong id="stat-avg-price" class="stat-value">Rp 53.333</strong>
+            <small class="stat-note">Dihitung otomatis (reduce)</small>
+          </div>
+        </article>
+
+        <!-- Kartu Analitik 3 -->
+        <article class="stat-card">
+          <img 
+            src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Kepiting" 
+            alt="Ilustrasi Produk Nilai Tertinggi" 
+            class="stat-thumb"
+          >
+          <div class="stat-info">
+            <span class="stat-label">Produk Harga Tertinggi</span>
+            <strong id="stat-max-product" class="stat-value">Kepiting Saus Tarakan</strong>
+            <small id="stat-max-price" class="stat-note">Rp 225.000 / porsi</small>
+          </div>
+        </article>
+
+        <!-- Kartu Analitik 4 -->
+        <article class="stat-card">
+          <img 
+            src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Rumput+Laut" 
+            alt="Ilustrasi Kategori Olahan Laut" 
+            class="stat-thumb"
+          >
+          <div class="stat-info">
+            <span class="stat-label">Kategori Olahan Laut</span>
+            <strong id="stat-total-categories" class="stat-value">3 Kategori</strong>
+            <small class="stat-note">Kering, Siap Saji, &amp; Diversifikasi</small>
+          </div>
+        </article>
       </div>
-
-      <!-- Status State: Loading & Error -->
-      <div id="status-message" role="status" aria-live="polite"></div>
-
-      <!-- Area Data Utama REST API -->
-      <div id="product-container" class="cards grid-view"></div>
     </section>
 
-    <!-- Section 3: Form & Validasi (Digit Z=3: Minimal Satu Kategori/Preferensi Dipilih) -->
-    <section id="form-mitra" aria-labelledby="heading-form">
-      <h2 id="heading-form">Formulir Pengajuan Preferensi Suplai Mitra UMKM</h2>
-      <form id="supply-form" novalidate>
-        <p>Komponen input dan validasi kategori akan ditempatkan di area ini.</p>
-      </form>
+    <!-- 3 & 4. SECTION TOOLBAR INTERAKTIF & KATALOG PRODUK -->
+    <section id="katalog-produk" class="section-block section-canvas-bleed" aria-labelledby="heading-katalog">
+      <div class="section-header">
+        <div>
+          <h2 id="heading-katalog">Katalog Produk Hasil Olahan Laut</h2>
+          <p class="section-desc">Menampilkan produk khas UMKM pesisir Tarakan. Klik kartu atau tombol <strong>Lihat Detail Produk</strong> untuk informasi kemasan dan kisaran harga.</p>
+        </div>
+      </div>
+
+      <!-- Toolbar Interaktif: Search (Y=0) + Sorting (Y=0) + Toggle Grid/List (C=3) -->
+      <div class="toolbar" role="region" aria-label="Kontrol Pencarian, Pengurutan, dan Mode Tampilan">
+        <div class="toolbar-group search-group">
+          <label for="search-input" class="toolbar-label">Cari Produk Olahan</label>
+          <input 
+            type="search" 
+            id="search-input" 
+            class="toolbar-input" 
+            placeholder="Cari pepija, amplang, kepiting soka, dodol..."
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="toolbar-group sort-group">
+          <label for="sort-select" class="toolbar-label">Urutkan Berdasarkan</label>
+          <select id="sort-select" class="toolbar-select">
+            <option value="default">Urutan Awal (Default)</option>
+            <option value="price-asc">Harga: Termurah ke Termahal</option>
+            <option value="price-desc">Harga: Termahal ke Termurah</option>
+            <option value="name-asc">Nama Produk: A ke Z</option>
+            <option value="rating-desc">Rating Tertinggi</option>
+          </select>
+        </div>
+
+        <div class="toolbar-group view-group">
+          <span class="toolbar-label" id="view-mode-label">Tampilan Katalog</span>
+          <div class="view-toggle-buttons" role="group" aria-labelledby="view-mode-label">
+            <button type="button" id="btn-grid-view" class="btn-toggle active" aria-pressed="true">
+              &#9638; Grid (Kotak)
+            </button>
+            <button type="button" id="btn-list-view" class="btn-toggle" aria-pressed="false">
+              &#9776; List (Daftar)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Area Loading & Error State -->
+      <div id="status-message" class="status-box" role="status" aria-live="polite" hidden></div>
+
+      <!-- Kontainer Kartu Produk (Pratinjau 3 Kategori Olahan Laut Tarakan) -->
+      <div id="product-container" class="product-catalog grid-view">
+        <!-- Kartu Pratinjau 1: Kategori Camilan & Seafood Kering -->
+        <article class="product-card" tabindex="0" data-id="1">
+          <div class="product-img-wrapper">
+            <img 
+              src="https://placehold.co/400x300/ffffff/1d1d1f?text=Ikan+Tipis+Pepija" 
+              alt="Ikan Tipis Goreng (Pepija)" 
+              class="product-img"
+            >
+            <span class="product-category-badge">Camilan &amp; Seafood Kering</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-title">Ikan Tipis Goreng (Pepija)</h3>
+            <p class="product-brand">Sentra Oleh-Oleh Pesisir Tanjung Batu</p>
+            <div class="product-meta">
+              <span class="product-price">Rp 30.000</span>
+              <span class="product-rating">&#9733; 4.9 | Kemasan Kecil</span>
+            </div>
+            <button type="button" class="btn-detail" data-id="1">Lihat Detail Produk</button>
+          </div>
+        </article>
+
+        <!-- Kartu Pratinjau 2: Kategori Kuliner Basah & Olahan Siap Saji -->
+        <article class="product-card" tabindex="0" data-id="2">
+          <div class="product-img-wrapper">
+            <img 
+              src="https://placehold.co/400x300/ffffff/1d1d1f?text=Kepiting+Soka+Goreng" 
+              alt="Kepiting Soka Goreng Tepung" 
+              class="product-img"
+            >
+            <span class="product-category-badge">Kuliner Basah &amp; Frozen</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-title">Kepiting Soka Goreng Tepung</h3>
+            <p class="product-brand">Kuliner Khas Tarakan (Porsi 8 Ekor / Frozen)</p>
+            <div class="product-meta">
+              <span class="product-price">Rp 90.000</span>
+              <span class="product-rating">&#9733; 4.8 | Siap Saji / Frozen</span>
+            </div>
+            <button type="button" class="btn-detail" data-id="2">Lihat Detail Produk</button>
+          </div>
+        </article>
+
+        <!-- Kartu Pratinjau 3: Kategori Diversifikasi & Produk Lainnya -->
+        <article class="product-card" tabindex="0" data-id="3">
+          <div class="product-img-wrapper">
+            <img 
+              src="https://placehold.co/400x300/ffffff/1d1d1f?text=Dodol+Rumput+Laut" 
+              alt="Dodol Rumput Laut Tarakan" 
+              class="product-img"
+            >
+            <span class="product-category-badge">Diversifikasi &amp; Lainnya</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-title">Dodol Rumput Laut</h3>
+            <p class="product-brand">Kelompok Olahan Pesisir Mamburungan</p>
+            <div class="product-meta">
+              <span class="product-price">Rp 15.000</span>
+              <span class="product-rating">&#9733; 4.7 | Kemasan 250g</span>
+            </div>
+            <button type="button" class="btn-detail" data-id="3">Lihat Detail Produk</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5. SECTION FORMULIR PENDAFTARAN PRODUK UMKM PESISIR (Ramah UMKM & Validasi Z=3) -->
+    <section id="form-mitra" class="section-block section-parchment-bleed" aria-labelledby="heading-form">
+      <div class="form-card">
+        <div class="section-header">
+          <h2 id="heading-form">Formulir Pendaftaran Etalase Produk UMKM Pesisir</h2>
+          <p class="section-desc">
+            Pelaku UMKM pesisir Tarakan dapat mendaftarkan produk olahan lautnya melalui 3 langkah sederhana di bawah ini agar tampil di katalog promosi.
+          </p>
+        </div>
+
+        <form id="supply-form" novalidate>
+          <div class="form-grid-two">
+            <!-- Langkah 1: Nama Usaha / Pemilik -->
+            <div class="form-field">
+              <label for="mitra-name" class="field-label">
+                1. Nama UMKM atau Nama Pengolah Hasil Laut <span class="required-mark">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="mitra-name" 
+                name="mitraName" 
+                class="field-input" 
+                placeholder="Contoh: UMKM Amplang Berkah Tanjung Batu"
+                aria-describedby="name-help name-error"
+                required
+              >
+              <small id="name-help" class="field-help">Ketik nama usaha rumahan, kelompok nelayan, atau nama Anda (minimal 3 huruf).</small>
+              <small id="name-error" class="error-text" aria-live="polite"></small>
+            </div>
+
+            <!-- Langkah 2: Nomor WhatsApp / Kontak Pemesanan -->
+            <div class="form-field">
+              <label for="mitra-contact" class="field-label">
+                2. Nomor WhatsApp Aktif (Untuk Pemesanan) <span class="required-mark">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="mitra-contact" 
+                name="mitraContact" 
+                class="field-input" 
+                placeholder="Contoh: 081234567890"
+                aria-describedby="contact-help contact-error"
+                required
+              >
+              <small id="contact-help" class="field-help">Nomor ini akan ditampilkan agar pembeli/wisatawan mudah menghubungi Anda.</small>
+              <small id="contact-error" class="error-text" aria-live="polite"></small>
+            </div>
+          </div>
+
+          <!-- Langkah 3: Pilihan Kategori Olahan Laut (Syarat Wajib Z=3: Minimal Satu Kategori Dipilih) -->
+          <fieldset class="category-fieldset" aria-describedby="category-help category-error">
+            <legend class="field-label">
+              3. Pilih Jenis Produk Olahan Laut yang Anda Hasilkan (Boleh centang lebih dari satu) <span class="required-mark">*</span>
+            </legend>
+            <small id="category-help" class="field-help">
+              Sentuh atau centang <strong>minimal 1 kategori produk</strong> di bawah ini sesuai hasil olahan UMKM Anda:
+            </small>
+
+            <div class="checkbox-cards-grid">
+              <label class="checkbox-card" for="cat-kering">
+                <input type="checkbox" id="cat-kering" name="categories" value="Camilan & Seafood Kering">
+                <span class="checkbox-content">
+                  <strong>Camilan &amp; Seafood Kering (Kemasan Oleh-Oleh)</strong>
+                  <small>Ikan tipis goreng (pepija), amplang bandeng, abon ikan/kepiting, kerupuk udang/rumput laut, &amp; ebi kering</small>
+                </span>
+              </label>
+
+              <label class="checkbox-card" for="cat-basah">
+                <input type="checkbox" id="cat-basah" name="categories" value="Kuliner Basah & Frozen">
+                <span class="checkbox-content">
+                  <strong>Kuliner Basah &amp; Olahan Siap Saji (Resto / Frozen)</strong>
+                  <small>Kepiting soka goreng tepung, kapah rebus Pantai Amal, bandeng tanpa duri (Batari) frozen, &amp; kepiting saus</small>
+                </span>
+              </label>
+
+              <label class="checkbox-card" for="cat-diversifikasi">
+                <input type="checkbox" id="cat-diversifikasi" name="categories" value="Diversifikasi & Lainnya">
+                <span class="checkbox-content">
+                  <strong>Diversifikasi &amp; Produk Olahan Lainnya</strong>
+                  <small>Dodol rumput laut, sabun rumput laut / kosmetik UMKM pesisir, &amp; petis udang khas Tarakan</small>
+                </span>
+              </label>
+            </div>
+
+            <small id="category-error" class="error-text" aria-live="polite"></small>
+          </fieldset>
+
+          <!-- Daftar Produk & Kisaran Harga Opsional -->
+          <div class="form-field">
+            <label for="mitra-notes" class="field-label">Nama Produk Unggulan &amp; Kisaran Harga (Opsional)</label>
+            <textarea 
+              id="mitra-notes" 
+              name="mitraNotes" 
+              rows="2" 
+              class="field-input"
+              placeholder="Contoh: Amplang Bandeng Rp25.000/bungkus, Ikan Tipis Pepija Rp30.000/kemasan kecil..."
+            ></textarea>
+          </div>
+
+          <!-- Feedback Sukses Saat Form Valid -->
+          <div id="form-success" class="success-banner" role="status" aria-live="polite" hidden></div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Daftarkan Produk UMKM</button>
+            <button type="reset" id="btn-reset-form" class="btn-secondary">Kosongkan Formulir</button>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 
-  <!-- Footer: Nama, NIM, Kelas, dan Keterangan PTS -->
+  <!-- POP-UP MODAL DETAIL PRODUK (<dialog> Semantik HTML5) -->
+  <dialog id="product-modal" class="product-modal" aria-labelledby="modal-title">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <span id="modal-category" class="product-category-badge">Kategori Olahan</span>
+        <button type="button" id="btn-close-modal" class="btn-close-modal" aria-label="Tutup detail produk">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-image-col">
+          <img id="modal-image" src="https://placehold.co/400x300/ffffff/1d1d1f?text=Detail+Olahan+Laut" alt="Gambar Detail Produk" class="modal-img">
+        </div>
+        <div class="modal-info-col">
+          <h3 id="modal-title" class="modal-title">Nama Produk Olahan</h3>
+          <p id="modal-brand" class="modal-brand">Sentra UMKM Pesisir Tarakan</p>
+          <p id="modal-price" class="modal-price">Rp 0</p>
+          <p id="modal-description" class="modal-description">
+            Penjelasan lengkap mengenai varian kemasan, kisaran harga kiloan/porsi, dan daya tahan produk olahan laut akan ditampilkan di sini.
+          </p>
+          <ul class="modal-specs">
+            <li><strong>Rating Kualitas:</strong> <span id="modal-rating">-</span></li>
+            <li><strong>Ketersediaan Stok:</strong> <span id="modal-stock">-</span></li>
+            <li><strong>Kemasan / Varian Harga:</strong> <span id="modal-discount">-</span></li>
+            <li><strong>Status Produk:</strong> <span id="modal-status">-</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 6. FOOTER -->
   <footer class="site-footer">
-    <div class="container">
-      <p>
-        Dibuat oleh <strong>Muhammad Randi Febrian — 2440304003</strong> (Program Studi Teknik Komputer, Kelas Semester 5) untuk memenuhi Penilaian Tengah Semester (PTS) Pemrograman Web.
+    <div class="container footer-inner">
+      <p class="footer-credit">
+        Dibuat oleh <strong>Muhammad Randi Febrian — 2440304003</strong> untuk memenuhi Penilaian Tengah Semester (PTS) Pemrograman Web.
       </p>
       <p class="footer-meta">
-        Fakultas Teknik — Universitas Borneo Tarakan &copy; 2026
+        Program Studi Teknik Komputer — Fakultas Teknik, Universitas Borneo Tarakan &copy; 2026
       </p>
     </div>
   </footer>

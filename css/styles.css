@@ -1,56 +1,1078 @@
-/* ========================================
-   Tahap 1: Inisialisasi Dasar Banget
-   ======================================== */
+/* ==========================================================================
+   PesisirNiaga — Stylesheet Utama (Tahap 2: Apple Design System)
+   Sesuai DESIGN.md:
+   - Single Action Blue (#0066cc), Focus Blue (#0071e3), Near-Black Ink (#1d1d1f)
+   - Zero decorative gradients, zero card shadows
+   - Single drop-shadow (rgba(0, 0, 0, 0.22) 3px 5px 30px) ONLY on product imagery
+   ========================================================================== */
 
 :root {
-  --space-1: 0.5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2rem;
+  /* Color Tokens (DESIGN.md) */
+  --primary: #0066cc;
+  --primary-focus: #0071e3;
+  --primary-on-dark: #2997ff;
+  --ink: #1d1d1f;
+  --body: #1d1d1f;
+  --body-on-dark: #ffffff;
+  --body-muted: #cccccc;
+  --ink-muted-80: #333333;
+  --ink-muted-48: #7a7a7a;
+  --divider-soft: #f0f0f0;
+  --hairline: #e0e0e0;
+  --canvas: #ffffff;
+  --canvas-parchment: #f5f5f7;
+  --surface-pearl: #fafafc;
+  --surface-tile-1: #272729;
+  --surface-black: #000000;
+  --surface-chip-translucent: rgba(210, 210, 215, 0.64);
 
-  /* Palet warna bertema maritim kapal laoed */
-  --brand: #0369a1;
-  --brand-dark: #0c4a6e;
-  --brand-light: #e0f2fe;
-  --surface: #ffffff;
-  --background: #f8fafc;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --border: #cbd5e1;
-
-  --error-bg: #fef2f2;
+  /* Status Colors (Text & Border Validation) */
   --error-text: #b91c1c;
-  --error-border: #f87171;
-  --success-bg: #f0fdf4;
+  --error-border: #d9381e;
+  --error-bg: #fff5f5;
   --success-text: #15803d;
-  --success-border: #4ade80;
+  --success-border: #bbf7d0;
+  --success-bg: #f0fdf4;
 
-  --radius: 0.75rem;
+  /* Typography Families (DESIGN.md) */
+  --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing Scale (8px Base Unit) */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 17px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 80px;
+
+  /* Border Radius Scale */
+  --rounded-none: 0px;
+  --rounded-xs: 5px;
+  --rounded-sm: 8px;
+  --rounded-md: 11px;
+  --rounded-lg: 18px;
+  --rounded-pill: 9999px;
+
+  /* The Single Product Imagery Shadow */
+  --product-shadow: 3px 5px 30px rgba(0, 0, 0, 0.22);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.6;
-  color: var(--text);
-  background-color: var(--background);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--body);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 .container {
-  width: min(100% - 2rem, 72rem);
+  width: min(100% - 32px, 1200px);
   margin-inline: auto;
 }
 
-/* Aksesibilitas Keyboard Focus */
+/* Keyboard Focus Ring (2px solid #0071e3) */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--brand-dark);
-  outline-offset: 3px;
+textarea:focus-visible,
+.product-card:focus-visible {
+  outline: 2px solid var(--primary-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   1. HEADER (Dark Tile / Pure Black Global Header + 1:1 Logo Slot)
+   ========================================================================== */
+.site-header {
+  background-color: var(--surface-black);
+  color: var(--body-on-dark);
+  padding-block: var(--space-xl);
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* Slot Logo Rasio 1:1 */
+.logo-box {
+  width: 68px;
+  height: 68px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+  background-color: var(--surface-tile-1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  flex-shrink: 0;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-context {
+  display: inline-block;
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+  color: var(--primary-on-dark);
+  margin-bottom: var(--space-xxs);
+}
+
+.brand-identity h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.28px;
+  color: var(--body-on-dark);
+}
+
+.subtitle {
+  margin: var(--space-xxs) 0 0;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--body-muted);
+}
+
+.student-badge {
+  background-color: var(--surface-tile-1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--rounded-lg);
+  text-align: right;
+}
+
+.student-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+  color: var(--body-on-dark);
+}
+
+.student-nim {
+  margin: 2px 0 var(--space-xs);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.224px;
+  color: var(--body-muted);
+}
+
+.variant-pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+  background-color: var(--primary);
+  color: var(--body-on-dark);
+  padding: 5px 12px;
+  border-radius: var(--rounded-pill);
+}
+
+/* ==========================================================================
+   NAVIGASI UTAMA (Component: sub-nav-frosted)
+   ========================================================================== */
+.site-nav {
+  background-color: rgba(245, 245, 247, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+}
+
+.nav-category-title {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+  color: var(--ink);
+}
+
+.nav-links-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  transition: color 0.15s ease;
+}
+
+.site-nav a:hover {
+  color: var(--primary);
+}
+
+.site-nav a.nav-cta-pill {
+  background-color: var(--primary);
+  color: var(--body-on-dark);
+  padding: 6px 14px;
+  border-radius: var(--rounded-pill);
+}
+
+.site-nav a.nav-cta-pill:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   FULL-BLEED ALTERNATING SECTIONS (Parchment <-> Pure White Canvas)
+   ========================================================================== */
+.main-content {
+  padding-block: 0;
+}
+
+.section-block {
+  padding-block: var(--space-section);
+}
+
+/* Trik Full-Bleed tanpa mengubah <main class="container"> */
+.section-parchment-bleed {
+  background-color: var(--canvas-parchment);
+  box-shadow: 0 0 0 100vmax var(--canvas-parchment);
+  clip-path: inset(0 -100vmax);
+}
+
+.section-canvas-bleed {
+  background-color: var(--canvas);
+  box-shadow: 0 0 0 100vmax var(--canvas);
+  clip-path: inset(0 -100vmax);
+}
+
+.section-header {
+  margin-bottom: var(--space-xl);
+}
+
+.section-header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.28px;
+  color: var(--ink);
+}
+
+.section-desc {
+  margin: var(--space-xs) 0 0;
+  color: var(--ink-muted-48);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+/* ==========================================================================
+   2. 4 KOTAK ANALITIK DATA (Component: store-utility-card)
+   ========================================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.stat-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.stat-thumb {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--rounded-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: var(--product-shadow);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted-48);
+  letter-spacing: -0.12px;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-block: 2px;
+}
+
+.stat-note {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.12px;
+  color: var(--ink-muted-48);
+}
+
+/* ==========================================================================
+   3. TOOLBAR INTERAKTIF (Pill Search + Clean Sort + Dark Utility Toggle)
+   ========================================================================== */
+.toolbar {
+  background-color: var(--canvas-parchment);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-lg);
+}
+
+.toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.search-group {
+  flex: 2 1 260px;
+}
+
+.sort-group {
+  flex: 1 1 210px;
+}
+
+.view-group {
+  flex: 0 1 auto;
+}
+
+.toolbar-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  color: var(--ink);
+}
+
+/* Component: search-input (Pill-shaped, 44px height) */
+.toolbar-input {
+  width: 100%;
+  height: 44px;
+  padding: 12px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+  background-color: var(--canvas);
+  color: var(--ink);
+}
+
+.toolbar-select {
+  width: 100%;
+  height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.224px;
+  background-color: var(--canvas);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.view-toggle-buttons {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Component: button-dark-utility / Pearl Capsule */
+.btn-toggle {
+  height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--hairline);
+  background-color: var(--surface-pearl);
+  color: var(--ink-muted-80);
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  border-radius: var(--rounded-sm);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.btn-toggle:active {
+  transform: scale(0.95);
+}
+
+.btn-toggle.active {
+  background-color: var(--ink);
+  color: var(--body-on-dark);
+  border-color: var(--ink);
+}
+
+/* ==========================================================================
+   4. KATALOG KARTU PRODUK (Component: store-utility-card, Zero Card Shadow)
+   ========================================================================== */
+.product-catalog.grid-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.product-catalog.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.product-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.product-img-wrapper {
+  position: relative;
+  background-color: var(--canvas-parchment);
+  border-radius: var(--rounded-sm);
+  aspect-ratio: 4 / 3;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Satu-satunya Drop-Shadow pada Sistem (DESIGN.md) */
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--rounded-sm);
+  box-shadow: var(--product-shadow);
+}
+
+.product-category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: var(--surface-chip-translucent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+  padding: 5px 12px;
+  border-radius: var(--rounded-pill);
+}
+
+.product-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-title {
+  margin: 0 0 4px;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+  color: var(--ink);
+}
+
+.product-brand {
+  margin: 0 0 var(--space-md);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+  color: var(--ink-muted-48);
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--divider-soft);
+  margin-bottom: var(--space-md);
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+  color: var(--ink);
+}
+
+.product-rating {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.224px;
+  color: var(--ink-muted-48);
+}
+
+/* Component: button-primary (Action Blue Pill) */
+.btn-detail {
+  width: 100%;
+  padding: 11px 22px;
+  background-color: var(--primary);
+  color: var(--body-on-dark);
+  border: none;
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.btn-detail:active {
+  transform: scale(0.95);
+}
+
+/* Mode List (Challenge C=3) */
+.product-catalog.list-view .product-card {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.product-catalog.list-view .product-img-wrapper {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.product-catalog.list-view .product-body {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.product-catalog.list-view .product-meta {
+  border-top: none;
+  margin-block: 0;
+  padding-top: 0;
+  gap: var(--space-lg);
+}
+
+.product-catalog.list-view .btn-detail {
+  width: auto;
+}
+
+/* ==========================================================================
+   POP-UP MODAL DETAIL PRODUK (<dialog>)
+   ========================================================================== */
+.product-modal {
+  width: min(92vw, 720px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: 0;
+  background-color: var(--canvas);
+  color: var(--ink);
+}
+
+.product-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.modal-inner {
+  padding: var(--space-xl);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.modal-header .product-category-badge {
+  position: static;
+}
+
+/* Component: button-icon-circular (44x44px) */
+.btn-close-modal {
+  background-color: var(--surface-chip-translucent);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--rounded-pill);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+  transition: transform 0.1s ease;
+}
+
+.btn-close-modal:active {
+  transform: scale(0.95);
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.modal-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background-color: var(--canvas-parchment);
+  border-radius: var(--rounded-sm);
+  padding: var(--space-lg);
+  box-shadow: var(--product-shadow);
+}
+
+.modal-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+
+.modal-brand {
+  margin: 0 0 var(--space-xs);
+  color: var(--ink-muted-48);
+  font-size: 14px;
+}
+
+.modal-price {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.modal-description {
+  margin: 0 0 var(--space-lg);
+  font-size: 17px;
+  line-height: 1.47;
+  color: var(--body);
+}
+
+.modal-specs {
+  list-style: none;
+  padding: var(--space-md) 0 0;
+  margin: 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+.modal-specs li {
+  margin-bottom: var(--space-xs);
+}
+
+/* ==========================================================================
+   5. FORMULIR PENDAFTARAN UMKM PESISIR (Configurator Option Chips)
+   ========================================================================== */
+.form-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xxl);
+}
+
+.form-grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+}
+
+.form-field {
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+  margin-bottom: var(--space-xs);
+  color: var(--ink);
+}
+
+.required-mark {
+  color: var(--error-text);
+}
+
+.field-input {
+  padding: 12px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+  color: var(--ink);
+  background-color: var(--canvas);
+}
+
+.field-input.input-error {
+  border-color: var(--error-border);
+  background-color: var(--error-bg);
+}
+
+.field-help {
+  color: var(--ink-muted-48);
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+  margin-top: 6px;
+}
+
+.error-text {
+  color: var(--error-text);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.224px;
+  margin-top: 6px;
+  min-height: 1.3em;
+}
+
+.category-fieldset {
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+  margin: 0 0 var(--space-lg);
+  background-color: var(--canvas-parchment);
+}
+
+.checkbox-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+/* Component: configurator-option-chip */
+.checkbox-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  cursor: pointer;
+}
+
+.checkbox-card:has(input:checked) {
+  border: 2px solid var(--primary-focus);
+}
+
+.checkbox-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.checkbox-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-content strong {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  color: var(--ink);
+}
+
+.checkbox-content small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.12px;
+  color: var(--ink-muted-48);
+}
+
+/* State Loading, Error & Success Banner */
+.status-box {
+  padding: var(--space-lg);
+  border-radius: var(--rounded-lg);
+  margin-bottom: var(--space-lg);
+  background-color: var(--canvas-parchment);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.status-box.error-state {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+}
+
+.success-banner {
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+  border-radius: var(--rounded-sm);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: var(--space-lg);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* Component: button-primary */
+.btn-primary {
+  padding: 11px 22px;
+  background-color: var(--primary);
+  color: var(--body-on-dark);
+  border: none;
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+/* Component: button-secondary-pill */
+.btn-secondary {
+  padding: 11px 22px;
+  background-color: var(--canvas);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--rounded-pill);
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.btn-secondary:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   6. FOOTER (Component: footer on Parchment Canvas)
+   ========================================================================== */
+.site-footer {
+  background-color: var(--canvas-parchment);
+  color: var(--ink-muted-80);
+  border-top: 1px solid var(--hairline);
+  padding-block: 64px;
+  text-align: center;
+}
+
+.footer-credit {
+  margin: 0 0 var(--space-xs);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.12px;
+  color: var(--ink-muted-80);
+}
+
+.footer-meta {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.08px;
+  color: var(--ink-muted-48);
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (Sesuai Tabel Breakpoint DESIGN.md)
+   ========================================================================== */
+
+/* Small Desktop / Tablet Landscape (<= 1068px) */
+@media (max-width: 1068px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-catalog.grid-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkbox-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .student-badge {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+/* Tablet Portrait (<= 833px) */
+@media (max-width: 833px) {
+  .form-grid-two,
+  .modal-body {
+    grid-template-columns: 1fr;
+  }
+
+  .product-catalog.list-view .product-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .product-catalog.list-view .product-img-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .form-card {
+    padding: var(--space-xl);
+  }
+}
+
+/* Phone & Small Phone (<= 640px) */
+@media (max-width: 640px) {
+  .section-block {
+    padding-block: var(--space-xxl);
+  }
+
+  .stats-grid,
+  .product-catalog.grid-view {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .view-toggle-buttons {
+    width: 100%;
+  }
+
+  .btn-toggle {
+    flex: 1;
+  }
+
+  .form-card {
+    padding: var(--space-lg);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
 }
